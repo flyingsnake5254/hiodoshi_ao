@@ -34,3 +34,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/cfg/app_settings.json
+    - assets/images/

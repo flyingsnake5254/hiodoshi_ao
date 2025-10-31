@@ -26,7 +26,11 @@ class MainTabsContainerView extends StatelessWidget {
                     onDestinationSelected: tabsRouter.setActiveIndex,
                     destinations: [
                       NavigationDestination(
-                          icon: Icon(Icons.home_outlined),
+                          icon: Image.asset(
+                            'assets/images/oumua.png',
+                            width: 24,
+                            height: 24,
+                          ),
                           selectedIcon: Icon(Icons.home_filled),
                           label: '首頁'
                       ),

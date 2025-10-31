@@ -13,7 +13,7 @@ class WordBrowsingPageView extends StatelessWidget {
     return BaseView(
       builder: (context, model, child) {
         return Scaffold(
-          body: Text("word browsing"),
+          body: Image.asset('assets/images/img.png'),
         );
       },
       modelProvider: () => WordBrowsingPageViewModel(),

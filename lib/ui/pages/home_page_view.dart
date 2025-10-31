@@ -12,7 +12,9 @@ class HomePageView extends StatelessWidget {
     return BaseView(
         builder: (context, model, child) {
           return Scaffold(
-            body: Text("home"),
+            body: Image.asset(
+              'assets/images/oumua.png'
+            ),
           );
         },
         modelProvider: () => HomePageViewModel(),
