@@ -1,0 +1,21 @@
+/*
+按鈕-FloatingActionButton-樣式4
+說明：
+1.可以在 Icon 加上 size 屬性，設定 icon 大小
+*/
+Container(
+  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+  child: FloatingActionButton.extended(
+    icon: Icon(
+      Icons.add, // 設置 Icon
+      color: Colors.white, // 設置 Icon 顏色
+      // size: 20,
+    ), 
+    label: Text('顯示文字', style: TextStyle(fontSize: null, fontWeight: null, color: Colors.white),),
+    backgroundColor: Colors.blueGrey, // 按鈕背景顏色
+    onPressed: () {
+      // 點擊事件
+    },
+  ),
+)

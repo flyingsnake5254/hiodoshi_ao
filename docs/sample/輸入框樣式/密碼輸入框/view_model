@@ -1,0 +1,26 @@
+class SampleViewModel extends BaseViewModel {
+  // 密碼輸入框的 controller
+  TextEditingController _paswordTextEditingController = TextEditingController();
+  TextEditingController get paswordTextEditingController => _paswordTextEditingController;
+
+  // 是否顯示密碼
+  ValueNotifier<bool> _isPasswordVisible = ValueNotifier(false);
+  ValueNotifier<bool> get isPasswordVisible => _isPasswordVisible;
+
+  // 點擊是否顯示密碼icon時觸發
+  void changePasswordVisibility() {
+    setBusy(true);
+    _isPasswordVisible.value = !_isPasswordVisible.value;
+    setBusy(false);
+  }
+
+  // 驗證輸入是否符合，回傳 true 將顯示 errorText
+  bool isError() {
+    return false;
+  }
+
+  // 取得當前密碼輸入框的文字
+  String getInputPassword() {
+    return _paswordTextEditingController.text;
+  }
+}

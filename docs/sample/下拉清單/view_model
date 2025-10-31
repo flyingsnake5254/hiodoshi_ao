@@ -1,0 +1,14 @@
+class SampleViewModel extends BaseViewModel {
+  // 清單項目設置
+  List<String> _items = <String>[
+    'content1',
+    'content2',
+    'content3'
+  ];
+  List<String> get items => _items;
+
+  // 項目被點擊時觸發。index 是被點擊的項目index。
+  void onTap(int index) {
+
+  }
+}

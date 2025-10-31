@@ -1,0 +1,42 @@
+/**
+ * list 清單
+ * 
+ * 使用說明：
+ * 1.BaseView 需要添加 onModelReady: (model) => model.initViewModel(),
+ * 2.checkbox 的狀態使用 ValueNotifier , 故若有需要，可以直接使用 ValueListenableBuilder 局部更新 widget
+ */
+Material(
+  child: ListView(
+    physics: ClampingScrollPhysics(), // list 滑動動畫
+    children: List.generate(
+      model.itemsTitle.length, // list 總項目數
+      (index) {
+        return Container(
+          height: 80, // 項目高度
+          alignment: Alignment.center, // 項目擺放的位置（垂直置中）
+          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+          child: ListTile(
+            // 項目左側 image，可以設置 width, height
+            leading: Image.asset(model.itemsImage[index], width: null, height: null,),
+
+            // 項目右側 checkbox
+            trailing: Checkbox(
+              value: model.checkBoxState[index].value,
+              onChanged: (value) => model.onTap(index), // 點擊 checkbox 執行的 function
+            ),
+
+            // 項目 title
+            title: Text(model.itemsTitle[index], style: TextStyle(fontSize: null, fontWeight: null, color: null),),
+
+            // 項目 subtitle
+            subtitle: Text(model.itemsSubTitle[index], style: TextStyle(fontSize: null, fontWeight: null, color: null),),
+
+            // 點擊 list 執行的方法
+            onTap: () => model.onTap(index),
+          ),
+        );
+      },
+    )
+  ),
+)

@@ -1,0 +1,20 @@
+/*
+按鈕-FloatingActionButton-樣式2
+說明：
+1.可以取消註解 Icon 的 size 屬性，設定 icon 大小
+*/
+Container(
+  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+  child: FloatingActionButton(
+    child: Icon(
+      // size: 20,
+      Icons.android, // 設置 Icon
+      color: Colors.white, // 設置 Icon 顏色
+    ),
+    backgroundColor: Colors.blueGrey, // 按鈕背景顏色
+    onPressed: () {
+      // 點擊事件
+    },
+  ),
+)

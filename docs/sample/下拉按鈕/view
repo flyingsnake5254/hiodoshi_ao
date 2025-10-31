@@ -1,0 +1,21 @@
+/*
+彈出式選單按鈕
+*/
+Material(
+  child: Container(
+    margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+    // 設置選單寬、高
+    // width: 200,
+    // height: 50,
+
+    child: DropdownButton(
+      value: model.selected, // 設置當前選中的選項
+      items: model.items,  // 從 viewmodel 取得 item 資料
+      // 當選項被選擇時觸發
+      onChanged: (value) {
+        model.buttonMenuOnChanged(value);
+      },
+    ),
+  ),
+)

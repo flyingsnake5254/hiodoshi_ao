@@ -1,0 +1,24 @@
+class SampleViewModel extends BaseViewModel {
+  // 目前被選擇的選項
+  int _selected = 0;
+  int get selected => _selected;
+
+  // 建立選項
+  List<DropdownMenuItem> _items = <DropdownMenuItem<int>>[
+    DropdownMenuItem(child: Text('item1'), value: 0,),
+    DropdownMenuItem(child: Text('item2'), value: 1,),
+    DropdownMenuItem(child: Text('item3'), value: 2,),
+  ];
+  List<DropdownMenuItem> get items => _items;
+
+  // 當選項被選擇時觸發
+  void buttonMenuOnChanged(int? value) {
+    setBusy(true);
+    if (value != null) {
+      _selected = value; 
+      print(_items[value].value);
+    }
+    setBusy(false);
+  }
+}
+

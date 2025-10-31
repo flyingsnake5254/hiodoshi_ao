@@ -1,0 +1,55 @@
+class SampleViewModel extends BaseViewModel {
+
+  // 左側 image 的路徑
+  List<String> _itemsImage = <String>[
+    'assets/images/img.png',
+    'assets/images/img.png'
+  ];
+  List<String> get itemsImage => _itemsImage;
+
+  // list title
+  List<String> _itemsTitle = <String>[
+    'title1',
+    'title2'
+  ];
+  List<String> get itemsTitle => _itemsTitle;
+
+  // list subtitle
+  List<String> _itemsSubTitle = <String>[
+    'subtitle1',
+    'subtitle2'
+  ];
+  List<String> get itemsSubTitle => _itemsSubTitle;
+
+  // checkbox state
+  List<ValueNotifier<bool>> _checkBoxState = <ValueNotifier<bool>>[];
+  List<ValueNotifier<bool>> get checkBoxState => _checkBoxState;
+
+  // view model 必須複寫此方法
+  @override
+  void initViewModel() {
+    super.initViewModel();
+    setBusy(true);
+    initList();
+    setBusy(false);
+  }
+
+  // 初始化 list
+  void initList() {
+    // 初始化 checkbox 的選取狀態（預設 false）
+    _checkBoxState = List.generate(
+      _itemsTitle.length,
+          (index) {
+        return ValueNotifier<bool>(false);
+      },
+    );
+  }
+
+  // 點擊 list 項目
+  void onTap(int index) {
+    setBusy(true);
+    _checkBoxState[index].value = !_checkBoxState[index].value;
+    setBusy(false);
+  }
+}
+

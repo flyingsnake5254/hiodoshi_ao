@@ -1,0 +1,17 @@
+class SampleViewModel extends BaseViewModel {
+  
+  // 輸入框 controller
+  TextEditingController _textEditingController = TextEditingController();
+  TextEditingController get textEditingController => _textEditingController;
+
+  // 驗證輸入是否符合，回傳 true 將顯示 errorText
+  bool isError() {
+    return false;
+  }
+
+  // 取得輸入框文字
+  String getInputText() {
+    return _textEditingController.text;
+  }
+}
+

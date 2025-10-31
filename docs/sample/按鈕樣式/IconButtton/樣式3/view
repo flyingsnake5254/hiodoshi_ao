@@ -1,0 +1,38 @@
+/*
+按鈕-IconButton-樣式1
+說明：
+1. 按鈕形狀由 shape 屬性決定，把想要的 shape 取消註解即可
+*/
+Container(
+  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+  child: IconButton.filledTonal(
+    icon: Icon(Icons.pedal_bike), // 設置 Icon
+    iconSize: 60, // Icon 大小
+    color: Colors.blue, // Icon 顏色
+    tooltip: '長按不放會出現的文字',
+    style: IconButton.styleFrom(
+
+      // 圓角矩形按鈕, 設定圓角的半徑為20
+      // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),),
+
+      // 圓形按鈕, 設定固定尺寸，以保證按鈕是圓形的
+      // shape: CircleBorder(), fixedSize: Size(70, 70),
+
+      // 貝塞爾曲線形狀按鈕
+      // shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(28),),
+
+      // 帶邊框的按鈕
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.circular(15), // 邊框圓滑程度
+      //   side: BorderSide(
+      //     color: Colors.blue, // 邊框顏色
+      //     width: 2, // 邊框寬度
+      //   ),
+      // ),
+    ),
+    onPressed: () {
+      // 點擊按鈕事件
+    },
+  ),
+)

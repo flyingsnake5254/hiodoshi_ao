@@ -1,0 +1,58 @@
+/**
+ * 
+ * 密碼輸入框
+ * 
+ */
+Container(
+  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+  child: Material(
+    child: TextField(
+      // 綁定 viewmodel 的 controller
+      controller: model.paswordTextEditingController,
+      // 輸入文字的樣式
+      style: const TextStyle(fontSize: null, fontWeight: null, color: null),
+      obscureText: !model.isPasswordVisible.value,
+      decoration: InputDecoration(
+        // 輸入框周圍的文字、樣式
+        labelText: 'labelText', labelStyle: TextStyle(fontSize: null, fontWeight: null, color: null),
+        hintText: 'hintText', hintStyle: TextStyle(fontSize: null, fontWeight: null, color: null), // 輸入框的提示文字，在輸入文字後，會消失
+        prefixText: 'prefixText', prefixStyle: TextStyle(fontSize: null, fontWeight: null, color: null), // 輸入框內的前綴文字
+        suffixText: 'suffixText', suffixStyle: TextStyle(fontSize: null, fontWeight: null, color: null), // 輸入框內的後綴文字
+        errorText: model.isError() ? 'errorText' : null, errorStyle: TextStyle(fontSize: null, fontWeight: null, color: null), // 顯示在輸入框外左下角，綁定 isError 方法，用來驗證是否錯誤
+        helperText: 'helperText', helperStyle: TextStyle(fontSize: null, fontWeight: null, color: null), // 輸入框外左下角
+        counterText: 'counterText', counterStyle: TextStyle(fontSize: null, fontWeight: null, color: null), // 輸入框外右下角
+
+        // 輸入框裡後綴 icon ，此為是否顯示密碼的眼睛icon
+        suffixIcon: IconButton(
+          icon: ValueListenableBuilder(
+            valueListenable: model.isPasswordVisible,
+            builder: (context, value, child) {
+              return model.isPasswordVisible.value ? Icon(Icons.visibility) : Icon(Icons.visibility_off); // 顯示/不顯示的 icon
+            },
+          ),
+          onPressed: () => model.changePasswordVisibility(), // 點擊 icon 時觸發
+        ),
+
+        // 預設邊框樣式
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15), // 邊框圓滑程度
+        ),
+        // 焦點時的邊框樣式
+        focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Colors.red, // 邊框顏色
+                width: 1 // 邊框粗細
+            )
+        ),
+        // 啟用但未焦點時的邊框樣式
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.blue, // 邊框顏色
+            width: 1 // 邊框粗細
+          )
+        ),
+      ),
+    ),
+  ),
+)

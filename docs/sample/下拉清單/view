@@ -1,0 +1,41 @@
+/**
+ * 下拉清單
+ * 
+ */
+Material(
+  child: Container(
+    margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+    child: ExpansionTile(
+      backgroundColor: null, // 展開時的背景顏色
+      collapsedBackgroundColor: null, // 展開時的背景顏色
+      // 清單的 title
+      title: Text(
+        '下拉清單 title',
+        style: TextStyle(fontSize: null, fontWeight: null, color: null), // 文字樣式
+        textAlign: null, // 文字顯示位置 ex : TextAlign.center 是置中
+      ),
+      // 下拉後的清單項目
+      children: List.generate(
+        model.items.length, // 項目數量
+        (index) {
+          return Container(
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            child: ListTile(
+              // 項目 title
+              title: Text(
+                model.items[index], // 項目 title 文字
+                style: TextStyle(fontSize: null, fontWeight: null, color: null), // 文字樣式
+                textAlign: null // 文字顯示位置 ex : TextAlign.center 是置中
+              ),
+              leading: null, // 項目開頭（左側）可以放 widget , 如 icon
+              trailing: null, // 項目尾端（右側）可以放 widget , 如 icon
+              onTap: () => model.onTap(index), // 點擊項目觸發的方法, index 是被點擊的項目index
+            ),
+          );
+        },
+      )
+    ),
+  )
+)

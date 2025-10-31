@@ -1,0 +1,45 @@
+/*
+按鈕-OutlinedButton
+說明：
+1.設定按鈕高度方法：
+  (1) 可以透過設置 Container 的 width , height 
+  (2) 設置 TextButton.styleFrom fixedSize 屬性設置固定大小
+2. 按鈕形狀由 shape 屬性決定，把想要的 shape 取消註解即可
+*/
+Container(
+  // 按鈕寬度、高度
+  // width: 200,
+  // height: 80,
+  child: Container(
+    margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+    child: OutlinedButton(
+      child: Text('按鈕文字', style: TextStyle(fontSize: null, fontWeight: null, color: null),),
+      style: OutlinedButton.styleFrom(
+        // 按鈕邊框顏色、粗細
+        side: BorderSide(color: Colors.red, width: 2),
+        
+        // 圓角矩形按鈕, 設定圓角的半徑為20
+        // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),),
+
+        // 圓形按鈕, 設定固定尺寸，以保證按鈕是圓形的
+        // shape: CircleBorder(), fixedSize: Size(70, 70),
+
+        // 貝塞爾曲線形狀按鈕
+        shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(28),),
+
+        // 帶邊框的按鈕
+        // shape: RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.circular(15), // 邊框圓滑程度
+        //   side: BorderSide(
+        //     color: Colors.blue, // 邊框顏色
+        //     width: 2, // 邊框寬度
+        //   ),
+        // ),
+      ),
+      onPressed: () {
+        // 點擊按鈕事件
+      },
+    ),
+  )
+)

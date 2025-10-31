@@ -1,0 +1,39 @@
+/*
+彈出式選單按鈕
+*/
+Container(
+  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+  child: PopupMenuButton(
+    // 按鈕的icon，預設為 icon 三個點
+    // icon: Icon(Icons.android),
+
+    // 設置 icon 大小
+    // iconSize: 60,
+
+    // 選單出現的位置偏移量
+    // offset: Offset(100, 50), 
+
+    // 建立選單
+    itemBuilder: (context) {
+      return <PopupMenuEntry>[
+        PopupMenuItem(child: Text('item1'), value: 'item1_value',), // 選項
+        PopupMenuItem(child: Text('item2'), value: 'item2_value',),
+        PopupMenuDivider(), // 分隔線
+        PopupMenuItem(child: Text('item3'), value: 'item3_value',)
+      ];
+    },
+    // 選擇 item 時
+    onSelected: (value) {
+      print(value);
+    },
+    // 取消選擇時
+    onCanceled: () {
+      print('cancel');
+    },
+    // 點擊 MenuButton 打開清單時
+    onOpened: () {
+      print('open');
+    },
+  ),
+)
