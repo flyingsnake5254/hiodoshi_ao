@@ -1,0 +1,22 @@
+import 'package:auto_route/annotations.dart';
+import 'package:hiodoshi_ao/ui/pages/base_view.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:hiodoshi_ao/viewmodels/word_browsing_page_view_model.dart';
+
+@RoutePage()
+class WordBrowsingPageView extends StatelessWidget {
+  const WordBrowsingPageView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseView(
+      builder: (context, model, child) {
+        return Scaffold(
+          body: Text("word browsing"),
+        );
+      },
+      modelProvider: () => WordBrowsingPageViewModel(),
+    );
+  }
+}

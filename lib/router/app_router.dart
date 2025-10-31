@@ -7,9 +7,19 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
     // 歡迎頁面(初次載入 app 會顯示的頁面)
     AutoRoute(
-      path: '/home',
+      path: '/main',
       initial: true,
-      page: HomePageRoute.page,
+      page: MainTabsContainerRoute.page,
+      children: [
+        AutoRoute(
+            path: 'home',
+            page: HomePageRoute.page
+        ),
+        AutoRoute(
+            path: 'word-browsing',
+            page: WordBrowsingPageRoute.page
+        ),
+      ]
     ),
 
     // 註冊頁面

@@ -12,7 +12,7 @@ class HomePageView extends StatelessWidget {
     return BaseView(
         builder: (context, model, child) {
           return Scaffold(
-            body: Text("大岩壁"),
+            body: Text("home"),
           );
         },
         modelProvider: () => HomePageViewModel(),
