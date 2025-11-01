@@ -7,32 +7,45 @@ class TtsHelper {
   static final FlutterTts _tts = FlutterTts();
   static bool _inited = false;
 
-  static bool get _isAndroid     => !kIsWeb && Platform.isAndroid;
-  static bool get _isIOS         => !kIsWeb && Platform.isIOS;
-  static bool get _isMacOS       => !kIsWeb && Platform.isMacOS;
-  static bool get _isLinux       => !kIsWeb && Platform.isLinux;
+  static bool get _isAndroid => !kIsWeb && Platform.isAndroid;
+  static bool get _isIOS     => !kIsWeb && Platform.isIOS;
+  static bool get _isMacOS   => !kIsWeb && Platform.isMacOS;
+  static bool get _isLinux   => !kIsWeb && Platform.isLinux;
 
-  // 哪些平台可用 awaitSpeakCompletion / setSpeechRate / setPitch
-  static bool get _supportsAwait => _isAndroid || _isIOS || _isMacOS;     // ★ Linux/Web 不支援
-  static bool get _supportsRate  => _isAndroid || _isIOS || _isMacOS;     // ★ Linux/Web 不支援
-  static bool get _supportsPitch => _isAndroid || _isIOS || _isMacOS;     // ★ Linux/Web 不支援
+  static bool get _supportsAwait => _isAndroid || _isIOS || _isMacOS; // Linux/Web 不支援
+  static bool get _supportsRate  => _isAndroid || _isIOS || _isMacOS;
+  static bool get _supportsPitch => _isAndroid || _isIOS || _isMacOS;
 
   static Future<void> init() async {
     if (_inited) return;
     _inited = true;
 
-    if (_supportsAwait) {
-      try { await _tts.awaitSpeakCompletion(true); } catch (_) {}
+    // 💡 iOS 真機常需要 AudioSession 設定
+    if (_isIOS) {
+      try {
+        await _tts.setSharedInstance(true);
+        await _tts.setIosAudioCategory(
+          IosTextToSpeechAudioCategory.playback,
+          [
+            IosTextToSpeechAudioCategoryOptions.allowBluetooth,
+            IosTextToSpeechAudioCategoryOptions.allowBluetoothA2DP,
+            IosTextToSpeechAudioCategoryOptions.mixWithOthers,
+            IosTextToSpeechAudioCategoryOptions.defaultToSpeaker,
+          ],
+          IosTextToSpeechAudioMode.defaultMode,
+        );
+      } catch (_) {}
     }
+
+    if (_supportsAwait) { try { await _tts.awaitSpeakCompletion(true); } catch (_) {} }
     if (_supportsRate)  { try { await _tts.setSpeechRate(0.5); } catch (_) {} }
     if (_supportsPitch) { try { await _tts.setPitch(1.0);      } catch (_) {} }
 
     if (kIsWeb) {
-      await _ensureWebVoicesLoaded(); // ★ 只在 Web 等待 voices
+      await _ensureWebVoicesLoaded(); // 只在 Web 等待 voices
     }
   }
 
-  // ★ 只在 Web 上確保 voices 載入
   static Future<void> _ensureWebVoicesLoaded() async {
     for (int i = 0; i < 10; i++) {
       final voices = await _tts.getVoices; // List<Map>
@@ -41,16 +54,23 @@ class TtsHelper {
     }
   }
 
-  // 聰明設定語言
+  // 💡 Web：確認是否真的有 voice（沒有就別硬播）
+  static Future<bool> _webHasVoices() async {
+    try {
+      final voices = await _tts.getVoices;
+      return voices is List && voices.isNotEmpty;
+    } catch (_) {
+      return false;
+    }
+  }
+
   static Future<void> _setLangSmart(String lang) async {
     if (_supportsRate || _supportsPitch || _supportsAwait) {
-      // Android / iOS / macOS：直接 setLanguage
       try { await _tts.setLanguage(lang); } catch (_) {}
       return;
     }
 
     if (kIsWeb) {
-      // ★ Web：用 getVoices 挑一個最接近的 voice
       final voices = (await _tts.getVoices) as List?;
       Map? chosen;
       if (voices != null && voices.isNotEmpty) {
@@ -77,16 +97,14 @@ class TtsHelper {
     }
 
     if (_isLinux) {
-      // ★ Linux：不要用 getVoices / setVoice，直接嘗試 setLanguage（常被忽略，但不會噴例外）
       try { await _tts.setLanguage(lang); } catch (_) {}
       return;
     }
   }
 
-  // 粗估講話時間（Web/Linux 用）
   static Duration _estimate(String text) {
     final len = text.runes.length;
-    final ms = 500 + len * 60; // 依需求調整
+    final ms = 500 + len * 60;
     return Duration(milliseconds: ms.clamp(400, 12000));
   }
 
@@ -94,19 +112,22 @@ class TtsHelper {
   static Future<void> speakSeq(List<(String lang, String text)> seq) async {
     await init();
 
+    // 💡 Web：若沒有任何 voice，直接丟清楚的錯誤讓 UI 顯示
+    if (kIsWeb && !await _webHasVoices()) {
+      throw '此瀏覽器目前沒有可用的語音（voices）。請安裝系統 TTS（如 espeak-ng / speech-dispatcher），並重啟瀏覽器。';
+    }
+
     for (final (lang, raw) in seq) {
       final text = raw.trim();
       if (text.isEmpty) continue;
 
       await _setLangSmart(lang);
-
       await _tts.speak(text);
 
       if (_supportsAwait) {
-        // Android/iOS/macOS：init() 已開 awaitSpeakCompletion(true)，會等講完
+        // Android/iOS/macOS：會等講完（init 已開 awaitSpeakCompletion）
       } else {
-        // Web/Linux：用估計延遲當作串接
-        await Future.delayed(_estimate(text));
+        await Future.delayed(_estimate(text)); // Web/Linux：估時串接
       }
     }
   }
