@@ -1,3 +1,4 @@
+import 'package:hiodoshi_ao/core/services/log_service.dart';
 import 'package:hiodoshi_ao/locator.dart';
 import 'package:hiodoshi_ao/router/app_router.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +9,7 @@ import 'package:global_configuration/global_configuration.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GlobalConfiguration().loadFromAsset("app_settings");
+  LogService.init();
   setupLocator();
   GetIt.instance.registerSingleton<AppRouter>(AppRouter());
   runApp(MyApp());

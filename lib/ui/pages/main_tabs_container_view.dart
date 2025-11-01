@@ -15,7 +15,9 @@ class MainTabsContainerView extends StatelessWidget {
           return AutoTabsRouter(
             routes: [
               HomePageRoute(),
-              WordBrowsingPageRoute()
+              WordBrowsingPageRoute(),
+              PracticePageRoute(),
+              TestPageRoute()
             ],
             builder: (context, child) {
               final tabsRouter = AutoTabsRouter.of(context);
@@ -38,6 +40,16 @@ class MainTabsContainerView extends StatelessWidget {
                           icon: Icon(Icons.wordpress_outlined),
                           selectedIcon: Icon(Icons.wordpress),
                           label: '單字'
+                      ),
+                      NavigationDestination(
+                          icon: Icon(Icons.pan_tool_alt_outlined),
+                          selectedIcon: Icon(Icons.pan_tool_alt),
+                          label: '練習'
+                      ),
+                      NavigationDestination(
+                          icon: Icon(Icons.my_library_books_outlined),
+                          selectedIcon: Icon(Icons.my_library_books),
+                          label: '測驗'
                       ),
                     ],
                 ),

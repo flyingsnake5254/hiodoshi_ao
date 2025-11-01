@@ -17,11 +17,23 @@ class AppRouter extends RootStackRouter {
         ),
         AutoRoute(
             path: 'word-browsing',
-            page: WordBrowsingPageRoute.page
+            page: WordBrowsingPageRoute.page,
+            children: [
+
+            ]
         ),
+        AutoRoute(
+            path: 'practice',
+            page: PracticePageRoute.page
+        ),
+        AutoRoute(
+            path: 'test',
+            page: TestPageRoute.page
+        ),
+
       ]
     ),
-
+    AutoRoute(page: WordListPageRoute.page)
     // 註冊頁面
     // AutoRoute(
     //   path: '/sign-up',
