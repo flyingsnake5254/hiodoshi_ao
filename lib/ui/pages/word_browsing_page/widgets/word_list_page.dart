@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:hiodoshi_ao/core/models/word.dart';
+import 'package:hiodoshi_ao/core/services/log_service.dart';
 import 'package:hiodoshi_ao/core/utils/tts_helper.dart';
 import 'package:hiodoshi_ao/core/utils/utils.dart';
 
@@ -74,7 +75,7 @@ class WordListPageView extends StatelessWidget {
           }
 
           return ListView.separated(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16), // 不用刻意加大底部 padding
             itemCount: words.length,
             separatorBuilder: (_, __) => const Divider(height: 16),
             itemBuilder: (context, i) {
@@ -83,19 +84,18 @@ class WordListPageView extends StatelessWidget {
                 onTap: () async {
                   try {
                     await TtsHelper.speakSeq([
-                      ('en-US', w.word),                 // 英文單字
-                      ('zh-TW', w.wordCN),               // 中文
-                      ('en-US', w.exampleSentences),     // 英文例句
-                      ('zh-TW', w.exampleSentencesCN),   // 中文例句
+                      ('en-US', w.word),
+                      ('zh-TW', w.wordCN),
+                      ('en-US', w.exampleSentences),
+                      ('zh-TW', w.exampleSentencesCN),
                     ]);
                   } catch (e) {
+                    LogService.e('朗讀失敗：$e');
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('朗讀失敗：$e')),
                     );
                   }
                 },
-
-
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 tileColor: Colors.white,
                 title: Text('${w.word}  —  ${w.wordCN}',
@@ -134,6 +134,71 @@ class WordListPageView extends StatelessWidget {
           );
         },
       ),
+
+      // 這裡新增固定底部的按鈕
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+          child: Row(
+            children: [
+              // 第一個按鈕
+              Expanded(
+                child: SizedBox(
+                  height: 48,
+                  child: ElevatedButton.icon(
+                    onPressed: () async {
+                      // 範例：全部朗讀
+                      try {
+                        final words = await Utils.loadWordsFromCsvAsset('assets/words/$date.csv');
+                        for (final w in words) {
+                          await TtsHelper.speakSeq([
+                            ('en-US', w.word),
+                            ('zh-TW', w.wordCN),
+                            ('en-US', w.exampleSentences),
+                            ('zh-TW', w.exampleSentencesCN),
+                          ]);
+                        }
+                      } catch (e) {
+                        LogService.e('朗讀失敗：$e');
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('朗讀失敗：$e')),
+                          );
+                        }
+                      }
+                    },
+                    icon: const Icon(Icons.volume_up),
+                    label: const Text('全部朗讀'),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12), // 兩個按鈕間距
+              // 第二個按鈕
+              Expanded(
+                child: SizedBox(
+                  height: 48,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      // 範例：切換模式或顯示統計
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('進入測驗模式！')),
+                      );
+                    },
+                    icon: const Icon(Icons.quiz),
+                    label: const Text('測驗模式'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepPurple, // 可自訂顏色
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+
+
       backgroundColor: const Color(0xFFF5F6FA),
     );
   }
